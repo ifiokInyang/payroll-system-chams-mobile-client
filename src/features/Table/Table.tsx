@@ -1,52 +1,77 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { User } from '../../utils/Interfaces/index.dto';
 import "./Table.css";
+import { getEmployeesAsync, showEmployee} from './TableSlice';
+import * as dayjs from 'dayjs';
+import Button from '../../Components/Button/Button';
+import Form from '../Form/Form';
+// import Form from '../Form/Form';
+
 
 const Table = () => {
+    const employees = useSelector(showEmployee)
+    const dispatch = useDispatch();
+
+    const [open, setOpen] = useState(false);
+    const handleClose = () => setOpen(false);
+    const handleOpen = () => setOpen(true);
+
+    const getMonthName = (monthNumber: any) => {
+        const date = new Date();
+        date.setMonth(monthNumber - 1);
+    
+        return date.toLocaleString("en-US", { month: "long" });
+      }
+
+    useEffect(() => {
+        return () => {
+            dispatch(getEmployeesAsync() as any);
+        } 
+    }, [])
   return (
-    <div>
+    <div className='tableContainer'>
+        <div className='tableSubContainer'>
+            <Button buttonText='Add Employee' className='addButton' onClick={handleOpen}/>
         <table>
-            <tr>
-                <th>Name</th>
-                <th>Username</th>
-                <th>Company</th>
-                <th>Salary</th>
-                <th>Month</th>
-                <th>Year</th>
-                <th>Email</th>
-                <th>Status</th>
-                <th>isActiveStaff</th>
-            </tr>
-            <tr>
-                <td>Alfreds Futterkiste</td>
-                <td>Maria Anders</td>
-                <td>Germany</td>
-            </tr>
-            <tr>
-                <td>Centro comercial Moctezuma</td>
-                <td>Francisco Chang</td>
-                <td>Mexico</td>
-            </tr>
-            <tr>
-                <td>Ernst Handel</td>
-                <td>Roland Mendel</td>
-                <td>Austria</td>
-            </tr>
-            <tr>
-                <td>Island Trading</td>
-                <td>Helen Bennett</td>
-                <td>UK</td>
-            </tr>
-            <tr>
-                <td>Laughing Bacchus Winecellars</td>
-                <td>Yoshi Tannamuri</td>
-                <td>Canada</td>
-            </tr>
-            <tr>
-                <td>Magazzini Alimentari Riuniti</td>
-                <td>Giovanni Rovelli</td>
-                <td>Italy</td>
+        <tr className='tableHeadingTh'>
+                <th className='tableSerialNumberHeading'>S/N</th>
+                <th className='tableNameHeading'>Name</th>
+                <th className='tableUsernameHeading'>Username</th>
+                <th className='tableCompanyHeading'>Company</th>
+                <th className='tableSalaryHeading'>Salary(&#x20A6;)</th>
+                <th className='tableMonthHeading'>Month(2023)</th>
+                {/* <th>Year</th> */}
+                <th className='tableEmailHeading'>Email</th>
+                <th className='tableStatusHeading'>Status</th>
+                <th className='tableActiveStaffHeading'>isActiveStaff</th>
             </tr>
         </table>
+        { employees.map((employee: User, index: number) => (
+        <div key={employee.id}>
+            <table>
+            <tr>
+                <td className='tableSerialNumberData'>{1+index++}</td>
+                <td className='tableNameData'>{`${employee.firstName} ${employee.lastName}`}</td>
+                <td>{employee.username}</td>
+                <td>{employee.company}</td>
+                <td>{employee.salary}</td>
+                {getMonthName(
+                new Date(employee.createdAt)
+                  .toLocaleString("en-NG")
+                  .split("/")[1]
+              )}
+                {/* <td>{"s"}</td> */}
+                <td>{employee.email}</td>
+                <td>{employee.status === null ? "null" : employee.status}</td>
+                <td>{employee.isActiveStaff ? "true" : "false"}</td>
+
+            </tr>
+            </table>
+        </div>
+        ))}
+        </div>
+        <Form open={open} handleClose={handleClose} handleOpen={handleOpen} />
     </div>
   )
 }

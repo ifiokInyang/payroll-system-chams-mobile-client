@@ -1,15 +1,78 @@
 table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
-    width: 100%;
+    max-width: 1200px;
   }
-  
-  td, th {
+  .tableSerialNumberHeading{
+    background-color: red;
+    width: 11px;
+  }
+  .tableSerialNumberData{
+    /* background-color: aqua; */
+    padding: 8px;
+    width: 27px;
+  }
+  .tableNameData{
+    padding: 8px;
+    width: 107px;
+  }
+  .tableHeadingTh{
+    width: 100%;
+    /* background-color: aqua; */
+  }
+  .addButton{
+    cursor: pointer;
+  }
+  .tableNameHeading{
+
+  }
+  .tableUsernameHeading{
+
+  }
+  .tableCompanyHeading{
+
+  }
+  .tableSalaryHeading{
+
+  }
+  .tableMonthHeading{
+
+  }
+  .tableEmailHeading{
+
+  }
+  .tableStatusHeading{
+
+  }
+  .tableActiveStaffHeading{
+    
+   }
+  th, td {
     border: 1px solid #dddddd;
-    text-align: left;
+    /* text-align: center; */
     padding: 8px;
   }
   
   tr:nth-child(even) {
     background-color: #dddddd;
+  }
+  .tableContainer{
+    overflow-x: scroll;
+    overflow-y: auto;
+    padding-top: 145px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 820px;
+    background-color: red; /* For browsers that do not support gradients */
+  background-image: linear-gradient(to right, #b3bdaf , #bdb9af);
+    /* background-color: red; */
+  }
+  .tableSubContainer{
+    /* width: 80vw;
+    height: 80vw; */
+    background-color: white;
+    box-shadow: 5px 10px 8px 10px #888888;
   }
