@@ -57,23 +57,23 @@ export const addEmployeesAsync = (data: any) => async (dispatch: any) => {
     }
 }
 
-export const deleteEmployeesAsync = (data: any) => async (dispatch: any) => {
+export const deleteEmployeesAsync = (id: string) => async (dispatch: any) => {
     try {
-        const response = await axios.delete(`${ServerUrl}/users/${data}`)
-        console.log("response is ", response.data)
+        const response = await axios.delete(`${ServerUrl}/users/${id}`)
         if (response.status === 200) {
+            toast.success("Successfully deleted employee")
             const remainingEmployee = await axios.get(`${ServerUrl}/users`)
-            console.log("response is ", response.data)
             dispatch(getAllEmployees(remainingEmployee.data))
         }
     } catch (err: any) {
         console.log(err)
+        toast.error(err.response.data.message || "Something went wrong")
         throw new Error(err);
     }
 }
-export const updateEmployeeAsync = (data: any) => async (dispatch: any) => {
+export const updateEmployeeAsync = (employee: User) => async (dispatch: any) => {
     try {
-        const response = await axios.patch(`${ServerUrl}/users/${data}`, "")
+        const response = await axios.patch(`${ServerUrl}/users/${employee.id}`, employee)
         console.log("response is ", response.data)
         if (response.status === 200) {
             const allEmployees = await axios.get(`${ServerUrl}/users`)
@@ -82,6 +82,7 @@ export const updateEmployeeAsync = (data: any) => async (dispatch: any) => {
         }
     } catch (err: any) {
         console.log(err)
+        toast.error(err.response.data.message || "Something went wrong")
         throw new Error(err);
     }
 }

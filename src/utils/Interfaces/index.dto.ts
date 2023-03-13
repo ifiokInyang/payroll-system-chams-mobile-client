@@ -1,7 +1,8 @@
+import React from "react";
 export interface ButtonAttributes {
   className?: string;
   type?: "submit" | "reset" | "button";
-  onClick?: () => void;
+  onClick: () => void | undefined;
   buttonText?: string;
 }
 
@@ -47,7 +48,9 @@ export const userDetails: DisplayedUser = {
 export interface FormProps {
     open: boolean, 
     handleClose: () => void, 
-    handleOpen: () => void
+    handleOpen: () => void,
+    input: FormData,
+    setInput: React.Dispatch<React.SetStateAction<FormData>> | any
   }
 
 export interface FormData{

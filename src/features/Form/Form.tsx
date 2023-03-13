@@ -6,8 +6,7 @@ import { formDetails, FormProps } from "../../utils/Interfaces/index.dto";
 import { useDispatch } from "react-redux";
 import Button from "../../Components/Button/Button";
 
-const Form = ({open, handleClose}: FormProps) => {
-     const [input, setInput] = useState(formDetails);
+const Form = ({open, handleClose, input, setInput}: FormProps) => {
      const [isClicked, setIsClicked] = useState(true)
 
      const dispatch = useDispatch()
@@ -25,6 +24,7 @@ const Form = ({open, handleClose}: FormProps) => {
         event.preventDefault();
         setIsClicked(false);
         handleClose();
+        setInput(formDetails)
         dispatch(addEmployeesAsync(input) as any)
     };
     return (

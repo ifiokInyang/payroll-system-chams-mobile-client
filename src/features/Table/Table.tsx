@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { User } from '../../utils/Interfaces/index.dto';
+import { formDetails, User } from '../../utils/Interfaces/index.dto';
 import "./Table.css";
-import { getEmployeesAsync, showEmployee} from './TableSlice';
+import { getEmployeesAsync, showEmployee, deleteEmployeesAsync, updateEmployeeAsync} from './TableSlice';
 import * as dayjs from 'dayjs';
 import Button from '../../Components/Button/Button';
 import Form from '../Form/Form';
+import { AnyAction } from '@reduxjs/toolkit';
 // import Form from '../Form/Form';
 
 
@@ -14,6 +15,9 @@ const Table = () => {
     const dispatch = useDispatch();
 
     const [open, setOpen] = useState(false);
+    const [input, setInput] = useState(formDetails);
+    // const [is]
+
     const handleClose = () => setOpen(false);
     const handleOpen = () => setOpen(true);
 
@@ -24,7 +28,11 @@ const Table = () => {
         return date.toLocaleString("en-US", { month: "long" });
       }
 
-    useEffect(() => {
+      const handleUpdateClick = (employee: User) => {
+        handleOpen()
+        setInput({...employee})
+      }
+     useEffect(() => {
         return () => {
             dispatch(getEmployeesAsync() as any);
         } 
@@ -65,13 +73,19 @@ const Table = () => {
                 <td>{employee.email}</td>
                 <td>{employee.status === null ? "null" : employee.status}</td>
                 <td>{employee.isActiveStaff ? "true" : "false"}</td>
+                
+            <Button type='button' buttonText='Update' className='updateButton' onClick={() => handleUpdateClick(employee)}/>
+            <Button buttonText='Delete' className='deleteButton' onClick={() => dispatch(deleteEmployeesAsync(employee.id) as any)}/>
 
             </tr>
+
             </table>
         </div>
         ))}
         </div>
-        <Form open={open} handleClose={handleClose} handleOpen={handleOpen} />
+        <Form open={open} handleClose={handleClose} 
+        handleOpen={handleOpen} 
+        input={input} setInput={setInput}/>
     </div>
   )
 }
