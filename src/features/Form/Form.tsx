@@ -1,12 +1,10 @@
 import React, { ChangeEvent, useState } from "react";
-import { addEmployeesAsync } from '../Table/TableSlice';
+import { addEmployeesAsync, updateEmployeeAsync } from '../Table/TableSlice';
 import Modal from 'react-bootstrap/Modal';
-import "./Form.css";
 import { formDetails, FormProps } from "../../utils/Interfaces/index.dto";
 import { useDispatch } from "react-redux";
-import Button from "../../Components/Button/Button";
 
-const Form = ({open, handleClose, input, setInput}: FormProps) => {
+const Form = ({open, handleClose, input, setInput, isUpdate}: FormProps) => {
      const [isClicked, setIsClicked] = useState(true)
 
      const dispatch = useDispatch()
@@ -27,11 +25,22 @@ const Form = ({open, handleClose, input, setInput}: FormProps) => {
         setInput(formDetails)
         dispatch(addEmployeesAsync(input) as any)
     };
+
+    const handleUpdate = (event: React.MouseEvent<HTMLElement>) => {
+      event.preventDefault();
+      setIsClicked(false);
+      handleClose();
+      setInput(formDetails)
+      dispatch(updateEmployeeAsync(input) as any)
+
+    }
+
     return (
         <>
             <Modal show={open} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Create Employee</Modal.Title>
+                    {!isUpdate && <Modal.Title>Create Employee</Modal.Title>}
+                    {isUpdate && <Modal.Title>Update Employee</Modal.Title>}
                 </Modal.Header>
                 <Modal.Body>
                   <form>
@@ -67,15 +76,19 @@ const Form = ({open, handleClose, input, setInput}: FormProps) => {
                     </div>
                    
                     <div className="mb-3">
-                      <label htmlFor="salary" className="form-label form-label-c">Salary</label>
+                      <label htmlFor="salary" className="form-label form-label-c">Salary(&#x20A6;)</label>
                       <input type="text" className="form-control form-control-c" 
                       value={input.salary} name="salary" onChange={handleFormChange}
                       placeholder="enter salary...." />
                     </div>
                   {/* <Button /> */}
-                    <div className="mb-3 mt-3">
-                         <button className="btn btn-primary c-submit-button btn-c" style={{cursor: `${isClicked ? "pointer" : "not-allowed"}`}} onClick={handleSubmit}>Submit</button>
-                    </div>
+                    {!isUpdate && <div className="mb-3 mt-3">
+                         <button type="submit" className="btn btn-primary c-submit-button btn-c" style={{cursor: `${isClicked ? "pointer" : "not-allowed"}`}} onClick={handleSubmit}>Submit</button>
+                    </div>}
+                    {isUpdate && <div className="mb-3 mt-3">
+                         <button type="submit" className="btn btn-primary c-submit-button btn-c" style={{cursor: `${isClicked ? "pointer" : "not-allowed"}`}} 
+                         onClick={handleUpdate}>Submit</button>
+                    </div>}
                   </form>
                 </Modal.Body>
             </Modal>

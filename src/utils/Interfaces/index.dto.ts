@@ -50,22 +50,31 @@ export interface FormProps {
     handleClose: () => void, 
     handleOpen: () => void,
     input: FormData,
-    setInput: React.Dispatch<React.SetStateAction<FormData>> | any
+    setInput: React.Dispatch<React.SetStateAction<FormData>> | any,
+    isUpdate: boolean
   }
 
 export interface FormData{
+    id: string,
     firstName: string,
     lastName: string,
     username: string,
     email: string,
     company: string,
-    salary: string
+    salary: string,
+    status: string,
+    isActiveStaff: boolean,
+    createdAt?: Date
 }
 export const formDetails: FormData = {
+    id: "",
     firstName: "",
     lastName: "",
     username: "",
     email: "",
     company: "",
-    salary: ""
+    salary: "",
+    status: "",
+    isActiveStaff: true,
+    
 }

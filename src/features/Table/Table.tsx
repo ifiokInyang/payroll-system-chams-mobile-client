@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { formDetails, User } from '../../utils/Interfaces/index.dto';
 import "./Table.css";
-import { getEmployeesAsync, showEmployee, deleteEmployeesAsync, updateEmployeeAsync} from './TableSlice';
-import * as dayjs from 'dayjs';
+import { getEmployeesAsync, showEmployee, deleteEmployeesAsync } from './TableSlice';
 import Button from '../../Components/Button/Button';
 import Form from '../Form/Form';
-import { AnyAction } from '@reduxjs/toolkit';
-// import Form from '../Form/Form';
+import Swal, { SweetAlertResult } from 'sweetalert2';
+import { toast } from 'react-hot-toast';
 
 
 const Table = () => {
@@ -16,10 +15,16 @@ const Table = () => {
 
     const [open, setOpen] = useState(false);
     const [input, setInput] = useState(formDetails);
-    // const [is]
+    const [isUpdate, setIsUpdate] = useState<boolean>(false)
 
-    const handleClose = () => setOpen(false);
-    const handleOpen = () => setOpen(true);
+    const handleClose = () => {
+        setOpen(false);
+        setInput({...formDetails})
+    }
+    const handleOpen = () => {
+        setIsUpdate(false)
+        setOpen(true);
+    }
 
     const getMonthName = (monthNumber: any) => {
         const date = new Date();
@@ -31,16 +36,36 @@ const Table = () => {
       const handleUpdateClick = (employee: User) => {
         handleOpen()
         setInput({...employee})
+        setIsUpdate(true)
       }
+
+      const handleDelete = (id: string): void | undefined => {
+        Swal.fire({
+            title: 'This action will permanently delete this record',
+            text: 'Do you want to continue',
+            icon: 'warning',
+            confirmButtonText: 'Yes'                          
+        }).then((data: any) => {
+            if(data.isConfirmed)
+            dispatch(deleteEmployeesAsync(id) as any)
+        }).catch((error: any) => {
+            toast.error("Something went wrong")
+            throw new Error(error)
+        } )
+    }
+
+
      useEffect(() => {
         return () => {
             dispatch(getEmployeesAsync() as any);
         } 
-    }, [])
+    }, [dispatch])
+   
+
   return (
     <div className='tableContainer'>
         <div className='tableSubContainer'>
-            <Button buttonText='Add Employee' className='addButton' onClick={handleOpen}/>
+            
         <table>
         <tr className='tableHeadingTh'>
                 <th className='tableSerialNumberHeading'>S/N</th>
@@ -75,7 +100,7 @@ const Table = () => {
                 <td>{employee.isActiveStaff ? "true" : "false"}</td>
                 
             <Button type='button' buttonText='Update' className='updateButton' onClick={() => handleUpdateClick(employee)}/>
-            <Button buttonText='Delete' className='deleteButton' onClick={() => dispatch(deleteEmployeesAsync(employee.id) as any)}/>
+            <Button buttonText='Delete' className='deleteButton' onClick={() => handleDelete(employee.id)}/>
 
             </tr>
 
@@ -83,9 +108,17 @@ const Table = () => {
         </div>
         ))}
         </div>
-        <Form open={open} handleClose={handleClose} 
+
+        <div className='addButtonContainer'>
+            <Button buttonText='Add Employee' className='addButton' onClick={handleOpen}/>
+            </div>
+        <Form open={open} 
+        handleClose={handleClose} 
         handleOpen={handleOpen} 
-        input={input} setInput={setInput}/>
+        input={input} 
+        setInput={setInput}
+        isUpdate={isUpdate}
+        />
     </div>
   )
 }

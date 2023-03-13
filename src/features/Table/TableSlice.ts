@@ -5,7 +5,6 @@ import { ServerUrl } from "../../utils/Variables";
 import toast from 'react-hot-toast';
 
 
-// const initialState:User[] = [];
 export interface EmployeeState {
     data: User[];
     singleEmployee: DisplayedUser
@@ -27,9 +26,7 @@ const TableSlice = createSlice({
         getAnEmployee: (state: EmployeeState, action: PayloadAction<any>) => {
             state.singleEmployee = action.payload;
         },
-        // deleteEmployee: (state: EmployeeState, action: PayloadAction<any[]>) => {
-        //     state.data = action.payload;
-        // }
+    
     }
 })
 
@@ -71,13 +68,12 @@ export const deleteEmployeesAsync = (id: string) => async (dispatch: any) => {
         throw new Error(err);
     }
 }
-export const updateEmployeeAsync = (employee: User) => async (dispatch: any) => {
+export const updateEmployeeAsync = (employee: any) => async (dispatch: any) => {
     try {
         const response = await axios.patch(`${ServerUrl}/users/${employee.id}`, employee)
-        console.log("response is ", response.data)
         if (response.status === 200) {
+            toast.success("Profile updated successfully")
             const allEmployees = await axios.get(`${ServerUrl}/users`)
-            console.log("response is ", response.data)
             dispatch(getAllEmployees(allEmployees.data))
         }
     } catch (err: any) {
@@ -89,7 +85,6 @@ export const updateEmployeeAsync = (employee: User) => async (dispatch: any) => 
 export const getSingleEmployeeAsync = (data: any) => async (dispatch: any) => {
     try {
         const response = await axios.get(`${ServerUrl}/users/${data}`)
-        console.log("response is ", response.data)
         dispatch(getAnEmployee(response.data))
         
     } catch (err: any) {
