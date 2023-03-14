@@ -1,8 +1,10 @@
 # Getting Started with Payroll Management System App
 
 ## Available Scripts
+AFTER CLONING THE REPO, CHECKOUT TO crudFixes branch by RUNNING
 
-In the project directory, you can run:
+## `git checkout crudFixes` 
+In the project directory AND IN THE crudFixes branch, you can run:
 ## "yarn" 
 
 to install dependencies.
