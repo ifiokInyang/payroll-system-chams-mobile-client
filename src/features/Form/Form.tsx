@@ -37,7 +37,7 @@ const Form = ({open, handleClose, input, setInput, isUpdate}: FormProps) => {
 
     return (
         <>
-            <Modal show={open} onHide={handleClose}>
+            <Modal show={open} onHide={handleClose} className="modalForm">
                 <Modal.Header closeButton>
                     {!isUpdate && <Modal.Title>Create Employee</Modal.Title>}
                     {isUpdate && <Modal.Title>Update Employee</Modal.Title>}
@@ -83,10 +83,10 @@ const Form = ({open, handleClose, input, setInput, isUpdate}: FormProps) => {
                     </div>
                   {/* <Button /> */}
                     {!isUpdate && <div className="mb-3 mt-3">
-                         <button type="submit" className="btn btn-primary c-submit-button btn-c" style={{cursor: `${isClicked ? "pointer" : "not-allowed"}`}} onClick={handleSubmit}>Submit</button>
+                         <button type="submit" className="deleteButton" style={{cursor: `${isClicked ? "pointer" : "not-allowed"}`}} onClick={handleSubmit}>Submit</button>
                     </div>}
                     {isUpdate && <div className="mb-3 mt-3">
-                         <button type="submit" className="btn btn-primary c-submit-button btn-c" style={{cursor: `${isClicked ? "pointer" : "not-allowed"}`}} 
+                         <button type="submit" className="deleteButton" style={{cursor: `${isClicked ? "pointer" : "not-allowed"}`}} 
                          onClick={handleUpdate}>Submit</button>
                     </div>}
                   </form>

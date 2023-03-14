@@ -20,9 +20,9 @@ table {
     
   }
   .tableSerialNumberData{
-    /* background-color: aqua; */
     padding: 8px;
-    width: 27px;
+    width: 47px;
+    /* background-color: red; */
   }
   .tableNameData{
     padding: 8px;
@@ -32,7 +32,7 @@ table {
     width: 100%;
     /* background-color: aqua; */
   }
-  .updateButton,  .addButton, .deleteButton{
+  .updateButton, .deleteButton{
     cursor: pointer;
     background-color: #2a1e15;
     color: white;
@@ -40,14 +40,27 @@ table {
     padding: 12px;
     font-size: 20px;
   }
- 
+  .deleteButton{
+    margin-left: 20px;
+  }
+  .addButton{
+    cursor: pointer;
+    background-color: #2a1e15;
+    color: white;
+    border-radius: 5px;  
+    padding: 12px;
+    font-size: 40px;
+    width: 300px;
+  }
 .addButton:hover, .updateButton:hover, .deleteButton:hover{
     font-weight: 1000;
     color: black;
     background-color: #e7d9ce;
 }
 
-
+.modal-content{
+  background-color:#dad4d0;
+}
 
   .tableNameHeading{
 
@@ -115,13 +128,17 @@ table {
     border: 2px solid black;
     background-color: rgb(126, 118, 118);
     color: white;
-    /* width: 400px; */
-    /* max-width: max-content; */
   }
 
   .addButtonContainer{
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     margin-top: 40px;
+    width: 85vw;
+    /* background-color: red; */
+  }
+  .updateAndEditButtons{
+    display: flex;
+    justify-content: flex-end;
   }

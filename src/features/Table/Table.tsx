@@ -5,7 +5,7 @@ import "./Table.css";
 import { getEmployeesAsync, showEmployee, deleteEmployeesAsync } from './TableSlice';
 import Button from '../../Components/Button/Button';
 import Form from '../Form/Form';
-import Swal, { SweetAlertResult } from 'sweetalert2';
+import Swal from 'sweetalert2';
 import { toast } from 'react-hot-toast';
 
 
@@ -42,9 +42,13 @@ const Table = () => {
       const handleDelete = (id: string): void | undefined => {
         Swal.fire({
             title: 'This action will permanently delete this record',
-            text: 'Do you want to continue',
+            text: 'Do you want to continue?',
             icon: 'warning',
-            confirmButtonText: 'Yes'                          
+            confirmButtonText: 'Yes',
+            showCancelButton: true,
+            // cancelButtonColor: '#3085d6',
+            confirmButtonColor: '#2a1e15',
+            // color: "brown"                        
         }).then((data: any) => {
             if(data.isConfirmed)
             dispatch(deleteEmployeesAsync(id) as any)
@@ -63,7 +67,11 @@ const Table = () => {
    
 
   return (
+    
     <div className='tableContainer'>
+         <div className='addButtonContainer'>
+            <Button buttonText='Add Employee' className='addButton' onClick={handleOpen}/>
+        </div>
         <div className='tableSubContainer'>
             
         <table>
@@ -94,24 +102,24 @@ const Table = () => {
                   .toLocaleString("en-NG")
                   .split("/")[1]
               )}
-                {/* <td>{"s"}</td> */}
                 <td>{employee.email}</td>
                 <td>{employee.status === null ? "null" : employee.status}</td>
                 <td>{employee.isActiveStaff ? "true" : "false"}</td>
                 
-            <Button type='button' buttonText='Update' className='updateButton' onClick={() => handleUpdateClick(employee)}/>
-            <Button buttonText='Delete' className='deleteButton' onClick={() => handleDelete(employee.id)}/>
+           
 
             </tr>
-
+           
             </table>
+            <div className='updateAndEditButtons'>
+                <Button type='button' buttonText='Update' className='updateButton' onClick={() => handleUpdateClick(employee)}/>
+                <Button buttonText='Delete' className='deleteButton' onClick={() => handleDelete(employee.id)}/>
+            </div>
         </div>
         ))}
         </div>
 
-        <div className='addButtonContainer'>
-            <Button buttonText='Add Employee' className='addButton' onClick={handleOpen}/>
-            </div>
+       
         <Form open={open} 
         handleClose={handleClose} 
         handleOpen={handleOpen} 
