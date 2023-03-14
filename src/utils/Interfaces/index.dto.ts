@@ -51,7 +51,9 @@ export interface FormProps {
     handleOpen: () => void,
     input: FormData,
     setInput: React.Dispatch<React.SetStateAction<FormData>> | any
-  }
+    isUpdate: boolean
+
+}
 
 export interface FormData{
     firstName: string,

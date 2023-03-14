@@ -1,12 +1,12 @@
 import React, { ChangeEvent, useState } from "react";
-import { addEmployeesAsync } from '../Table/TableSlice';
+import { addEmployeesAsync, updateEmployeeAsync } from '../Table/TableSlice';
 import Modal from 'react-bootstrap/Modal';
 import "./Form.css";
 import { formDetails, FormProps } from "../../utils/Interfaces/index.dto";
 import { useDispatch } from "react-redux";
 import Button from "../../Components/Button/Button";
 
-const Form = ({open, handleClose, input, setInput}: FormProps) => {
+const Form = ({open, handleClose, input, setInput, isUpdate}: FormProps) => {
      const [isClicked, setIsClicked] = useState(true)
 
      const dispatch = useDispatch()
@@ -20,6 +20,15 @@ const Form = ({open, handleClose, input, setInput}: FormProps) => {
         })
      }
 
+    const handleUpdateSubmit = (event: React.MouseEvent<HTMLElement>) => {
+        event.preventDefault();
+        setIsClicked(false);
+        dispatch(updateEmployeeAsync(input) as any)
+        // setInput
+        handleClose();
+        setInput({...formDetails})
+
+    } 
     const handleSubmit = (event: React.MouseEvent<HTMLElement>) => {
         event.preventDefault();
         setIsClicked(false);
@@ -31,8 +40,8 @@ const Form = ({open, handleClose, input, setInput}: FormProps) => {
         <>
             <Modal show={open} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Create Employee</Modal.Title>
-                </Modal.Header>
+                {!isUpdate && <Modal.Title>Create Employee</Modal.Title>}
+                    {isUpdate && <Modal.Title>Update Employee</Modal.Title>}                </Modal.Header>
                 <Modal.Body>
                   <form>
                     <div className="mb-3">
@@ -73,9 +82,14 @@ const Form = ({open, handleClose, input, setInput}: FormProps) => {
                       placeholder="enter salary...." />
                     </div>
                   {/* <Button /> */}
-                    <div className="mb-3 mt-3">
-                         <button className="btn btn-primary c-submit-button btn-c" style={{cursor: `${isClicked ? "pointer" : "not-allowed"}`}} onClick={handleSubmit}>Submit</button>
+                    {!isUpdate && (<div className="mb-3 mt-3">
+                         <button type="submit" className="deleteButton" style={{cursor: `${isClicked ? "pointer" : "not-allowed"}`}} onClick={handleSubmit}>Submit</button>
                     </div>
+                    )}
+                   {isUpdate && (<div className="mb-3 mt-3">
+                         <button type="submit" className="deleteButton" style={{cursor: `${isClicked ? "pointer" : "not-allowed"}`}} onClick={handleUpdateSubmit}>update Employee</button>
+                    </div>
+                    )}
                   </form>
                 </Modal.Body>
             </Modal>

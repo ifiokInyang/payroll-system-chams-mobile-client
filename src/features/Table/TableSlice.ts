@@ -71,13 +71,13 @@ export const deleteEmployeesAsync = (id: string) => async (dispatch: any) => {
         throw new Error(err);
     }
 }
-export const updateEmployeeAsync = (employee: User) => async (dispatch: any) => {
+export const updateEmployeeAsync = (employee: any) => async (dispatch: any) => {
     try {
         const response = await axios.patch(`${ServerUrl}/users/${employee.id}`, employee)
         console.log("response is ", response.data)
         if (response.status === 200) {
+            toast.success("Successfully updated employee profile")
             const allEmployees = await axios.get(`${ServerUrl}/users`)
-            console.log("response is ", response.data)
             dispatch(getAllEmployees(allEmployees.data))
         }
     } catch (err: any) {

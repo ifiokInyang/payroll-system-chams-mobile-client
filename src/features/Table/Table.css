@@ -1,16 +1,27 @@
+body{
+  background-color: rgb(107, 95, 95); /* For browsers that do not support gradients */
+  background-image: url("../../assets/payrollbackground2.jpg");
+  background-size: cover;
+  /* overflow-x: scroll;
+  overflow-y: scroll; */
+}
 table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
-    max-width: 1200px;
+    width: 80vw;
+    height: 100px;
+    font-size: 30px;
+    background-color: #988d84
   }
   .tableSerialNumberHeading{
     /* background-color: red; */
     width: 11px;
+    
   }
   .tableSerialNumberData{
-    /* background-color: aqua; */
     padding: 8px;
-    width: 27px;
+    width: 47px;
+    /* background-color: red; */
   }
   .tableNameData{
     padding: 8px;
@@ -20,9 +31,36 @@ table {
     width: 100%;
     /* background-color: aqua; */
   }
+  .updateButton, .deleteButton{
+    cursor: pointer;
+    background-color: #2a1e15;
+    color: white;
+    border-radius: 5px;  
+    padding: 12px;
+    font-size: 20px;
+  }
+  .deleteButton{
+    margin-left: 20px;
+  }
   .addButton{
     cursor: pointer;
+    background-color: #2a1e15;
+    color: white;
+    border-radius: 5px;  
+    padding: 12px;
+    font-size: 40px;
+    width: 300px;
   }
+.addButton:hover, .updateButton:hover, .deleteButton:hover{
+    font-weight: 1000;
+    color: black;
+    background-color: #e7d9ce;
+}
+
+.modal-content{
+  background-color:#dad4d0;
+}
+
   .tableNameHeading{
 
   }
@@ -47,7 +85,7 @@ table {
   .tableActiveStaffHeading{
     
    }
-  th, td {
+  th{
     border: 1px solid #dddddd;
     /* text-align: center; */
     padding: 8px;
@@ -57,9 +95,10 @@ table {
     background-color: #dddddd;
   }
   .tableContainer{
-    overflow-x: scroll;
-    overflow-y: auto;
-    padding-top: 125px;
+    /* overflow-x: scroll;
+    overflow-y: auto; */
+    /* padding-top: 125px; */
+    margin-top: 200px;
     padding-bottom: 125px;
     display: flex;
     flex-direction: column;
@@ -67,17 +106,41 @@ table {
     justify-content: center;
     width: 100vw;
     height: 100%;
-    background-color: rgb(107, 95, 95); /* For browsers that do not support gradients */
-  background-image: linear-gradient(to right, #b3bdaf , #bdb9af);
+   
     /* background-color: red; */
   }
+
   .tableSubContainer{
     /* width: 80vw;
     height: 80vw; */
-    background-color: white;
+    background-color: #988d84;
     box-shadow: 5px 10px 8px 10px #888888;
   }
   .dashboardContainer{
     height: 100vh;
     width: 100%;
+  }
+
+  .payrollContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid black;
+    background-color: rgb(126, 118, 118);
+    color: white;
+    margin-top: 10px;
+    margin-bottom: 30px;
+  }
+
+  .addButtonContainer{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 340px;
+    width: 85vw;
+    /* background-color: red; */
+  }
+  .updateAndEditButtons{
+    display: flex;
+    justify-content: flex-end;
   }

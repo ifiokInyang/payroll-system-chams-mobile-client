@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { formDetails, User } from '../../utils/Interfaces/index.dto';
 import "./Table.css";
 import { getEmployeesAsync, showEmployee, deleteEmployeesAsync, updateEmployeeAsync} from './TableSlice';
-import * as dayjs from 'dayjs';
 import Button from '../../Components/Button/Button';
 import Form from '../Form/Form';
-import { AnyAction } from '@reduxjs/toolkit';
-// import Form from '../Form/Form';
+import Swal from 'sweetalert2';
+import { toast } from 'react-hot-toast';
+
 
 
 const Table = () => {
@@ -16,10 +16,16 @@ const Table = () => {
 
     const [open, setOpen] = useState(false);
     const [input, setInput] = useState(formDetails);
-    // const [is]
+    const [isUpdate, setIsUpdate] = useState<boolean>(false)
 
-    const handleClose = () => setOpen(false);
-    const handleOpen = () => setOpen(true);
+    const handleClose = () => {
+        setOpen(false);
+        setInput({...formDetails})
+    }
+    const handleOpen = () => {
+        setIsUpdate(false)
+        setOpen(true);
+    }
 
     const getMonthName = (monthNumber: any) => {
         const date = new Date();
@@ -29,9 +35,31 @@ const Table = () => {
       }
 
       const handleUpdateClick = (employee: User) => {
+        
         handleOpen()
+        setIsUpdate(true)
         setInput({...employee})
       }
+      const handleDelete = (id: string): void | undefined => {
+        Swal.fire({
+            title: 'This action will permanently delete this record',
+            text: 'Do you want to continue?',
+            icon: 'warning',
+            confirmButtonText: 'Yes',
+            showCancelButton: true,
+            confirmButtonColor: '#2a1e15',
+        }).then((data: any) => {
+            if(data.isConfirmed)
+            dispatch(deleteEmployeesAsync(id) as any)
+        }).catch((error: any) => {
+            toast.error("Something went wrong")
+            throw new Error(error)
+        } )
+    }
+
+
+
+
      useEffect(() => {
         return () => {
             dispatch(getEmployeesAsync() as any);
@@ -39,8 +67,10 @@ const Table = () => {
     }, [])
   return (
     <div className='tableContainer'>
-        <div className='tableSubContainer'>
+         <div className='addButtonContainer'>
             <Button buttonText='Add Employee' className='addButton' onClick={handleOpen}/>
+        </div>
+        <div className='tableSubContainer'>
         <table>
         <tr className='tableHeadingTh'>
                 <th className='tableSerialNumberHeading'>S/N</th>
@@ -69,23 +99,26 @@ const Table = () => {
                   .toLocaleString("en-NG")
                   .split("/")[1]
               )}
-                {/* <td>{"s"}</td> */}
                 <td>{employee.email}</td>
                 <td>{employee.status === null ? "null" : employee.status}</td>
                 <td>{employee.isActiveStaff ? "true" : "false"}</td>
-                
-            <Button type='button' buttonText='Update' className='updateButton' onClick={() => handleUpdateClick(employee)}/>
-            <Button buttonText='Delete' className='deleteButton' onClick={() => dispatch(deleteEmployeesAsync(employee.id) as any)}/>
-
             </tr>
 
             </table>
+            <div className='updateAndEditButtons'>
+                <Button type='button' buttonText='Update' className='updateButton' onClick={() => handleUpdateClick(employee)}/>
+                <Button buttonText='Delete' className='deleteButton' onClick={() => handleDelete(employee.id)}/>
+            </div>
         </div>
         ))}
         </div>
-        <Form open={open} handleClose={handleClose} 
+        <Form open={open} 
+        handleClose={handleClose} 
         handleOpen={handleOpen} 
-        input={input} setInput={setInput}/>
+        input={input} 
+        setInput={setInput}
+        isUpdate={isUpdate}
+        />
     </div>
   )
 }

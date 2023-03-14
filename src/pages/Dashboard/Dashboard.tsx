@@ -1,15 +1,14 @@
 import React from "react";
-import Form from "../../features/Form/Form";
 import Table from "../../features/Table/Table";
 import "../../features/Table/Table.css";
 
 const Dashboard = () => {
   return (
     <div className="dashboardContainer">
-        {/* <Form /> */}
+        <div className="payrollContainer">
+            <h1>Employee Payroll Management System</h1>
+        </div>
       <Table />
-
-      {/* <Form /> */}
     </div>
   );
 };
